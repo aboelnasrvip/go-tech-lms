@@ -1,163 +1,163 @@
 # Go Tech
 
-منصة عربية لإدارة التعلم (Learning Management System) موجهة لطلاب الثانوية في مصر، عشان يتعلموا البرمجة في مسار واضح: فيديو، تطبيق، واجب، وبعدين الدرس اللي بعده.
+An Arabic-first learning management system for Egyptian secondary students. Programming is taught as a clear path: watch a lesson, practice, pass the assignment, then unlock the next lesson.
 
-English: an Arabic-first LMS for Egyptian secondary students. Courses are organized as course, term, month, and lesson, with a student wallet, timed exams, and an admin dashboard.
+The interface is Arabic and right-to-left. Courses are organized as course, term, month, and lesson. Students pay through an in-app wallet. Teachers run the platform from a separate admin dashboard.
 
-## الفكرة
+## Idea
 
-الطالب مش محتاج مجموعة فيديوهات متفرقة. محتاج يعرف هو فين في المنهج، يدفع بطريقة تناسب الأسرة، ويحل واجب يتصحح في لحظتها قبل ما الدرس الجاي يتفتح.
+Students do not need a loose pile of videos. They need to know where they are in the syllabus, pay in a way that fits a family, and get an assignment graded immediately before the next lesson opens.
 
-Go Tech بتجمع المحتوى والدفع والمتابعة في مكان واحد، بواجهة عربية من اليمين لليسار، والمدرس بيتحكم في الكورسات والطلاب من لوحة تحكم مستقلة.
+Go Tech keeps content, payment, and progress in one place. The teacher publishes courses and reviews deposits from the dashboard.
 
-## الجمهور
+## Who it is for
 
-- طلاب الثانوية اللي بيتعلموا البرمجة
-- المدرس أو الأدمن اللي بينشر المحتوى ويراجع المدفوعات
-- ولي الأمر اللي عايز يشوف الاشتراك والتقدم من غير تعقيد
+- Secondary students learning programming
+- The teacher or admin who publishes content and reviews payments
+- A parent who wants a clear view of the subscription and progress
 
-## هيكل المحتوى
+## Content structure
 
 ```mermaid
 flowchart TD
-  course[الكورس]
-  term[الترم]
-  month[الشهر]
-  lesson[الدرس]
+  course[Course]
+  term[Term]
+  month[Month]
+  lesson[Lesson]
   course --> term
   term --> month
   month --> lesson
-  lesson --> video[فيديو]
-  lesson --> pdf[ملف PDF]
-  lesson --> editor[محرر كود]
-  lesson --> quiz[واجب]
+  lesson --> video[Video]
+  lesson --> pdf[PDF]
+  lesson --> editor[Code editor]
+  lesson --> quiz[Assignment]
 ```
 
-الشهر يتفتح لوحده، أو الترم كامل يتفتح مرة واحدة. لو الطالب اشترى شهر وبعدين قرر يشتري الترم، سعر الشهر اللي اتدفع قبل كده يتحسب خصم من سعر الترم.
+A month can be purchased on its own, or the whole term can be purchased at once. If a student already bought a month and later buys the full term, the price of that month is deducted from the term price.
 
-## رحلة الطالب
+## Student journey
 
 ```mermaid
 flowchart TD
-  account[إنشاء حساب وتأكيد الإيميل]
-  login[دخول بالإيميل أو رقم التليفون]
-  browse[اختيار الكورس والترم]
-  wallet[شحن المحفظة بإيصال]
-  review[مراجعة الأدمن]
-  buy[شراء الشهر أو الترم من الرصيد]
-  learn[مشاهدة الدرس وحل الواجب]
-  next[فتح الدرس التالي]
+  account[Create an account and confirm email]
+  login[Sign in with email or phone]
+  browse[Choose a course and term]
+  wallet[Top up the wallet with a receipt]
+  review[Admin review]
+  buy[Buy a month or a term from the balance]
+  learn[Watch the lesson and solve the assignment]
+  next[Unlock the next lesson]
   account --> login --> browse --> wallet --> review --> buy --> learn --> next
 ```
 
-الدخول بعد تأكيد الإيميل يكون بالإيميل أو رقم التليفون مع كلمة السر، من غير OTP في كل مرة.
+After the email is confirmed, later sign-in uses email or phone number plus a password. There is no OTP on every login.
 
-## جوه الدرس
+## Inside a lesson
 
 ```mermaid
 flowchart LR
-  open[فتح الدرس]
-  watch[الفيديو من آخر نقطة]
-  practice[المحرر أو الملف]
-  quiz[الواجب]
-  saved[حفظ آخر محاولة]
-  unlock[فتح الدرس التالي]
+  open[Open the lesson]
+  watch[Resume the video]
+  practice[Editor or file]
+  quiz[Assignment]
+  saved[Keep the last attempt]
+  unlock[Unlock the next lesson]
   open --> watch --> practice --> quiz --> saved --> unlock
 ```
 
-- الفيديو بيرجع لآخر موضع وقف عنده الطالب
-- الواجب يفضل محفوظ بآخر محاولة، مش بيتقفل بعد أول حل
-- أسئلة الدرس يقدر الطالب يعدّلها أو يمسحها، واسم الأدمن يظهر في الرد
-- اسم الطالب يظهر كعلامة مائية صغيرة ومتحركة على الفيديو
+- The video resumes from the last position the student reached
+- The last assignment attempt stays visible and can be reviewed
+- Lesson questions can be edited or deleted, and the admin name appears on replies
+- The student name appears as a small moving watermark on the video
 
-## المميزات
+## Features
 
-### للطالب
+### Student
 
-- صفحة رئيسية فيها الكورسات، الدروس المكتملة، الرصيد، والإشعارات
-- كورسات مقسمة حسب الصف الدراسي
-- دروس فيها فيديو، PDF، ومحرر HTML و CSS و JavaScript
-- واجبات بتصحيح فوري، والدرس التالي يتفتح بعد المطلوب
-- امتحانات بميعاد بداية، وعدّ تنازلي، وتسليم تلقائي لما الوقت يخلص
-- محفظة داخل الحساب: شحن بالإيصال، ثم شراء الشهر أو الترم من الرصيد
-- محافظ مصر: فودافون كاش، أورانج كاش، وي كاش، اتصالات كاش، وإنستاباي، والأدمن يقدر يضيف أو يعدّل أو يحذف أي طريقة
-- لايف حسب السنة الدراسية، وإشعارات
-- تقدم محفوظ، ووضع فاتح وداكن
+- Home overview with courses, completed lessons, balance, and notifications
+- Courses filtered by school year
+- Lessons with video, a PDF, and an HTML, CSS, and JavaScript editor
+- Instant assignment grading, with the next lesson locked until the requirement is done
+- Exams with a start time, a countdown, and automatic submission when time ends
+- An in-account wallet: upload a top-up receipt, then buy a month or a term from the balance
+- Egyptian wallets: Vodafone Cash, Orange Cash, WE Cash, Etisalat Cash, and InstaPay. The admin can add, edit, or delete any method
+- Live sessions by school year, plus notifications
+- Saved progress, and light or dark mode
 
-### للأدمن
+### Admin
 
-- نظرة عامة على الطلاب والكورسات والمدفوعات
-- بناء الكورس: ترم، شهر، درس
-- واجبات وأسئلة، واستيراد الأسئلة
-- امتحانات ونتائج المحاولات
-- مراجعة إيصالات الشحن واعتماد الرصيد
-- أسئلة الدروس والرد عليها
-- لايف موجه لصف معيّن
-- إشعارات للطلاب
-- سجل أحداث الحماية على الدروس
-- إعدادات الووترمارك وطرق الدفع
+- Overview of students, courses, and payments
+- Course builder: term, month, and lesson
+- Assignments, questions, and question import
+- Exams and attempt results
+- Review of top-up receipts and balance approval
+- Lesson questions and replies
+- Live sessions targeted at one school year
+- Notifications to students
+- A security event log for lesson activity
+- Watermark and payment-method settings
 
-## الشاشات
+## Screens
 
-الواجهة العامة داكنة، عربية، ومن اليمين لليسار.
+The public site is dark, Arabic, and right-to-left.
 
-### البداية
+### Landing
 
-![الصفحة الرئيسية](screenshots/go-tech-hero.png)
+![Landing page](screenshots/go-tech-hero.png)
 
-### ليه المنصة
+### Why the platform
 
-![مميزات التعلم](screenshots/go-tech-features.png)
+![Learning features](screenshots/go-tech-features.png)
 
-### خطوات الاستخدام
+### How it works
 
-![إزاي بتشتغل](screenshots/go-tech-flow.png)
+![How it works](screenshots/go-tech-flow.png)
 
-### تسجيل الدخول
+### Sign in
 
-![تسجيل الدخول](screenshots/go-tech-login.png)
+![Sign in](screenshots/go-tech-login.png)
 
-## الشراء من المحفظة
+## Buying from the wallet
 
-الاشتراك نفسه مش تحويل يدوي على كل شهر. الطالب يشحن المحفظة مرة، والأدمن يراجع الإيصال، وبعد الاعتماد الرصيد يتستخدم في الشراء.
+A subscription is not a separate manual transfer for every month. The student tops up the wallet once. The admin reviews the receipt. After approval, the balance is used to buy access.
 
 ```mermaid
 flowchart TD
-  pick[اختيار طريقة الدفع]
-  copy[نسخ رقم المحفظة]
-  receipt[رفع الإيصال والمبلغ]
-  confirm[تأكيد الإرسال]
-  admin[اعتماد الأدمن]
-  balance[زيادة الرصيد]
-  plan[شراء شهر أو ترم]
-  owned{مشترك قبل كده؟}
-  stop[ممنوع الخصم مرة تانية]
-  credit{شراء ترم وفيه شهور مدفوعة؟}
-  diff[خصم الفرق فقط]
-  full[خصم سعر الخطة]
+  pick[Choose a payment method]
+  copy[Copy the wallet number]
+  receipt[Upload the receipt and amount]
+  confirm[Confirm sending]
+  admin[Admin approval]
+  balance[Balance increases]
+  plan[Buy a month or a term]
+  owned{Already subscribed?}
+  stop[Do not charge again]
+  credit{Buying a term with months already paid?}
+  diff[Charge only the difference]
+  full[Charge the plan price]
   pick --> copy --> receipt --> confirm --> admin --> balance --> plan --> owned
-  owned -->|نعم| stop
-  owned -->|لا| credit
-  credit -->|نعم| diff
-  credit -->|لا| full
+  owned -->|Yes| stop
+  owned -->|No| credit
+  credit -->|Yes| diff
+  credit -->|No| full
 ```
 
-قبل أي شراء أو إرسال يظهر تأكيد. الرجوع لصفحة شهر تم شراؤه لا يخصم من الرصيد تاني.
+A confirmation appears before every purchase or receipt upload. Going back to a month that was already bought does not charge the wallet again.
 
-## التقنيات
+## Stack
 
-| الطبقة | الاختيار |
+| Layer | Choice |
 | --- | --- |
-| واجهة الطالب ولوحة التحكم | React و TypeScript و Vite |
-| التنسيق | Tailwind CSS، واجهة عربية RTL |
-| الحالة والبيانات | Redux Toolkit Query |
-| قاعدة البيانات والدخول والملفات | Supabase |
-| الاستضافة | Vercel |
+| Student app and admin dashboard | React, TypeScript, and Vite |
+| Styling | Tailwind CSS, Arabic RTL interface |
+| Client state and data | Redux Toolkit Query |
+| Database, auth, and files | Supabase |
+| Hosting | Vercel |
 
-المشروع تطبيقين: منصة الطالب، ولوحة تحكم الأدمن. الصلاحيات والخصم من المحفظة بتتنفذ على قاعدة البيانات، مش في الواجهة بس.
+The product is two apps: the student platform and the admin dashboard. Permissions and wallet charges run in the database, not only in the interface.
 
-## حدود النسخة الحالية
+## Current limits
 
-- مجتمع الطلاب متوقف مؤقتًا
-- شحن المحفظة بمراجعة يدوية للإيصال، وبعدها الشراء فوري من الرصيد
-- الكود التشغيلي في ريبو خاص، والملف ده شرح عام للفكرة والميزات
+- The student community is paused
+- Wallet top-ups are reviewed manually, then purchases are instant from the balance
+- The running source code is in a private repository. This file is a public overview of the idea and features
